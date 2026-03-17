@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YaKk's Keys</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #1a1a1a;
+      --gold: #f5c518;
+      --gold2: #e0a800;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --text: #f1f1f1;
+      --muted: #888;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-image: radial-gradient(ellipse at 20% 20%, #1a1200 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 80%, #001a08 0%, transparent 60%);
+    }
+
+    /* ── HEADER ── */
+    header {
+      width: 100%;
+      max-width: 900px;
+      padding: 22px 30px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .brand {
+      font-family: 'Bangers', cursive;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-shadow: 0 0 18px #f5c51888, 2px 2px 0 #000;
+    }
+
+    .monkey-wrap {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* ── HTML MONKEY ── */
+    .monkey {
+      width: 90px;
+      height: 90px;
+      position: relative;
+    }
+    .monkey svg { width: 90px; height: 90px; }
+
+    /* ── MAIN CARD ── */
+    main {
+      width: 100%;
+      max-width: 620px;
+      background: var(--card);
+      border: 2px solid #2a2a2a;
+      border-radius: 20px;
+      padding: 36px 32px 32px;
+      margin: 10px 16px 0;
+      box-shadow: 0 8px 60px #00000080;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .tagline {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── STEPS ── */
+    .steps { width: 100%; display: flex; flex-direction: column; gap: 14px; }
+
+    .step {
+      background: #111;
+      border: 1.5px solid #2a2a2a;
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.3s;
+    }
+    .step.done { border-color: var(--green); }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .step-num {
+      background: var(--gold);
+      color: #000;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bangers', cursive;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .step.done .step-num { background: var(--green); }
+
+    .check { color: var(--green); font-size: 1.1rem; margin-left: auto; display: none; }
+    .step.done .check { display: block; }
+
+    .countdown {
+      font-family: 'Bangers', cursive;
+      font-size: 1.4rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-align: center;
+      display: none;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      padding: 11px 28px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 16px #0008; }
+    .btn:active:not(:disabled) { transform: translateY(0); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .btn-yellow { background: var(--gold); color: #000; }
+    .btn-red    { background: var(--red);  color: #fff; }
+    .btn-blue   { background: var(--blue); color: #fff; }
+    .btn-green  { background: var(--green); color: #fff; font-size: 1.2rem; padding: 14px 40px; letter-spacing: 1px; }
+    .btn-green:disabled { background: #1e3a2a; color: #2d6b46; }
+
+    .sub-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    /* ── KEY PAGE ── */
+    #key-page {
+      display: none;
+      width: 100%;
+      max-width: 620px;
+      background: var(--card);
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      padding: 48px 32px;
+      margin: 10px 16px 0;
+      text-align: center;
+      box-shadow: 0 0 60px #f5c51822;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    #key-page h2 {
+      font-family: 'Bangers', cursive;
+      font-size: 2.4rem;
+      color: var(--gold);
+      letter-spacing: 3px;
+    }
+
+    .key-box {
+      background: #111;
+      border: 2px solid var(--gold);
+      border-radius: 12px;
+      padding: 18px 28px;
+      font-family: 'Bangers', cursive;
+      font-size: 1.6rem;
+      letter-spacing: 3px;
+      color: var(--green);
+      word-break: break-all;
+    }
+
+    .copy-hint { color: var(--muted); font-size: 0.85rem; }
+
+    .copy-btn {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 12px 34px;
+      border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .copy-btn:hover { transform: translateY(-2px); }
+
+    .copied-msg { color: var(--green); font-weight: 700; font-size: 0.95rem; min-height: 1.2em; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">YaKk's Keys 🔑</div>
+  <div class="monkey-wrap">
+    <!-- HTML Monkey -->
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="90" height="90">
+      <!-- ears -->
+      <ellipse cx="18" cy="52" rx="11" ry="9" fill="#8B5E3C"/>
+      <ellipse cx="82" cy="52" rx="11" ry="9" fill="#8B5E3C"/>
+      <ellipse cx="18" cy="52" rx="7" ry="6" fill="#c4845a"/>
+      <ellipse cx="82" cy="52" rx="7" ry="6" fill="#c4845a"/>
+      <!-- head -->
+      <ellipse cx="50" cy="46" rx="30" ry="28" fill="#8B5E3C"/>
+      <!-- face -->
+      <ellipse cx="50" cy="56" rx="20" ry="16" fill="#c4845a"/>
+      <!-- eyes -->
+      <ellipse cx="39" cy="40" rx="6" ry="7" fill="white"/>
+      <ellipse cx="61" cy="40" rx="6" ry="7" fill="white"/>
+      <circle cx="40" cy="41" r="3.5" fill="#1a0a00"/>
+      <circle cx="62" cy="41" r="3.5" fill="#1a0a00"/>
+      <circle cx="41" cy="39.5" r="1" fill="white"/>
+      <circle cx="63" cy="39.5" r="1" fill="white"/>
+      <!-- nostrils -->
+      <ellipse cx="46" cy="53" rx="2.5" ry="1.8" fill="#5a3520"/>
+      <ellipse cx="54" cy="53" rx="2.5" ry="1.8" fill="#5a3520"/>
+      <!-- smile -->
+      <path d="M40 60 Q50 68 60 60" stroke="#5a3520" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- top hair tuft -->
+      <ellipse cx="35" cy="20" rx="8" ry="10" fill="#5a3010" transform="rotate(-15 35 20)"/>
+      <ellipse cx="50" cy="17" rx="8" ry="10" fill="#5a3010"/>
+      <ellipse cx="65" cy="20" rx="8" ry="10" fill="#5a3010" transform="rotate(15 65 20)"/>
+      <!-- banana -->
+      <path d="M68 80 Q80 65 76 58" stroke="#f5c518" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M76 58 Q82 52 78 46" stroke="#e0a800" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <ellipse cx="68" cy="81" rx="5" ry="3" fill="#d4a200" transform="rotate(-30 68 81)"/>
+    </svg>
+  </div>
+</header>
+
+<!-- MAIN CARD -->
+<main id="main-page">
+  <div class="tagline">🔑 Please Do All These Tasks For Key! 🔑</div>
+
+  <div class="steps">
+
+    <!-- STEP 1: Watch Video -->
+    <div class="step" id="step1">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <span>Watch the Video</span>
+        <span class="check">✔</span>
+      </div>
+      <button class="btn btn-yellow" id="watchBtn" onclick="startWatch()">▶ Watch Video</button>
+      <div class="countdown" id="timer">1:15</div>
+    </div>
+
+    <!-- STEP 2: Subscribe -->
+    <div class="step" id="step2">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <span>Subscribe</span>
+        <span class="check">✔</span>
+      </div>
+      <div class="sub-row">
+        <button class="btn btn-red" id="subChannelBtn" disabled onclick="subChannel()">🔔 Sub To Channel</button>
+        <button class="btn btn-red" id="subVideoBtn" disabled onclick="subVideo()">👍 Sub To Video</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GET KEY -->
+  <button class="btn btn-green" id="getKeyBtn" disabled onclick="showKey()">🔑 Get Key</button>
+</main>
+
+<!-- KEY PAGE -->
+<div id="key-page">
+  <h2>🔑 Make Key</h2>
+  <p style="color:var(--muted)">Here is your generated key:</p>
+  <div class="key-box" id="keyDisplay">—</div>
+  <p class="copy-hint">Copy and save your key below!</p>
+  <button class="copy-btn" onclick="copyKey()">📋 Copy Key</button>
+  <div class="copied-msg" id="copiedMsg"></div>
+</div>
+
+<footer>YaKk's Keys &copy; 2025 — Complete all tasks to unlock your key.</footer>
+
+<script>
+  const KEYS = [
+    "Keying-12eEjnSiq82",
+    "Keying-rewrWnSiq82",
+    "Keying-Wjq28937ewsM",
+    "Keying-48BwhjeTehw",
+    "Keying-1r4ENwvahj"
+  ];
+
+  let watchDone = false;
+  let subChannelDone = false;
+  let subVideoDone = false;
+  let countdownInterval = null;
+  let subChannelTimeout = null;
+
+  // ── STEP 1: Watch Video ──
+  function startWatch() {
+    const btn = document.getElementById('watchBtn');
+    const timerEl = document.getElementById('timer');
+
+    // Open video
+    window.open('https://www.youtube.com/watch?v=wqTlB_OFcY0', '_blank');
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Watching...';
+    timerEl.style.display = 'block';
+
+    let totalSecs = 75; // 1:15
+
+    function tick() {
+      const m = Math.floor(totalSecs / 60);
+      const s = totalSecs % 60;
+      timerEl.textContent = m + ':' + (s < 10 ? '0' + s : s);
+      if (totalSecs <= 0) {
+        clearInterval(countdownInterval);
+        timerEl.textContent = '✅ Done!';
+        timerEl.style.color = 'var(--green)';
+        btn.textContent = '✔ Watched';
+        markStep1Done();
+      }
+      totalSecs--;
+    }
+
+    tick();
+    countdownInterval = setInterval(tick, 1000);
+  }
+
+  function markStep1Done() {
+    watchDone = true;
+    document.getElementById('step1').classList.add('done');
+    // Enable "Sub To Channel" after 5s delay
+    const subChannelBtn = document.getElementById('subChannelBtn');
+    subChannelBtn.textContent = '⏳ Wait 5s...';
+    subChannelBtn.disabled = true;
+    subChannelTimeout = setTimeout(() => {
+      subChannelBtn.disabled = false;
+      subChannelBtn.textContent = '🔔 Sub To Channel';
+    }, 5000);
+  }
+
+  // ── STEP 2a: Sub To Channel ──
+  function subChannel() {
+    window.open('https://www.youtube.com/watch?v=wqTlB_OFcY0', '_blank');
+    subChannelDone = true;
+    const btn = document.getElementById('subChannelBtn');
+    btn.disabled = true;
+    btn.textContent = '✔ Subbed!';
+    btn.style.background = 'var(--green)';
+    // Unlock Sub To Video
+    document.getElementById('subVideoBtn').disabled = false;
+    checkAllDone();
+  }
+
+  // ── STEP 2b: Sub To Video ──
+  function subVideo() {
+    window.open('https://www.youtube.com/watch?v=wqTlB_OFcY0', '_blank');
+    subVideoDone = true;
+    const btn = document.getElementById('subVideoBtn');
+    btn.disabled = true;
+    btn.textContent = '✔ Done!';
+    btn.style.background = 'var(--green)';
+    document.getElementById('step2').classList.add('done');
+    checkAllDone();
+  }
+
+  function checkAllDone() {
+    if (watchDone && subChannelDone && subVideoDone) {
+      document.getElementById('getKeyBtn').disabled = false;
+    }
+  }
+
+  // ── GET KEY ──
+  function showKey() {
+    const randomKey = KEYS[Math.floor(Math.random() * KEYS.length)];
+    document.getElementById('keyDisplay').textContent = randomKey;
+    document.getElementById('main-page').style.display = 'none';
+    const keyPage = document.getElementById('key-page');
+    keyPage.style.display = 'flex';
+    // animate in
+    keyPage.style.opacity = '0';
+    keyPage.style.transform = 'scale(0.95)';
+    keyPage.style.transition = 'opacity 0.4s, transform 0.4s';
+    setTimeout(() => {
+      keyPage.style.opacity = '1';
+      keyPage.style.transform = 'scale(1)';
+    }, 30);
+  }
+
+  function copyKey() {
+    const key = document.getElementById('keyDisplay').textContent;
+    navigator.clipboard.writeText(key).then(() => {
+      const msg = document.getElementById('copiedMsg');
+      msg.textContent = '✅ Key copied to clipboard!';
+      setTimeout(() => { msg.textContent = ''; }, 3000);
+    });
+  }
+</script>
+</body>
+</html>
